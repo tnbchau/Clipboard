@@ -99,18 +99,21 @@ namespace Clipboard
                 );
                 return;
             }
+            string timestamp = DateTime.Now.ToString("ddMMyyyy_HHmmss");
+            string fileName = $"ClipboardData_{timestamp}.txt";
             string path = Path.Combine
                 (
-                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), 
-                    "Downloads", 
-                    "ClipboardData.txt"
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    "Downloads",
+                    fileName
                 );
+
             File.WriteAllLines(path, items.ConvertAll(i => i.ToString()));
             MessageBox.Show
                 (
-                    "Đã lưu nội dung Clipboard vào tệp!", 
-                    "Thông báo", 
-                    MessageBoxButtons.OK, 
+                    $"Đã lưu nội dung Clipboard vào tệp {fileName} trong thư mục Downloads!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
         }

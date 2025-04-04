@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{87B39334-CF91-4E7B-93E5-702523EE1ACD}</ProjectGuid>
+    <ProjectGuid>{AB03D32A-6E7A-4DAB-98D5-F0ED9BADEB57}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Clipboard</RootNamespace>
-    <AssemblyName>Clipboard</AssemblyName>
+    <RootNamespace>DetailClipboard</RootNamespace>
+    <AssemblyName>DetailClipboard</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,26 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomStack.cs" />
-    <Compile Include="DetailClipboardCell.cs">
+    <Compile Include="DetailClipboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DetailClipboardCell.Designer.cs">
-      <DependentUpon>DetailClipboardCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="DetailClipboard.Designer.cs">
+      <DependentUpon>DetailClipboard.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="DetailClipboardCell.resx">
-      <DependentUpon>DetailClipboardCell.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="DetailClipboard.resx">
+      <DependentUpon>DetailClipboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

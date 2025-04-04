@@ -28,7 +28,7 @@ namespace Clipboard
                 if (items[i].Content.Length > 50)
                     preview = items[i].Content.Substring(0, 50) + "...";
                 else preview = items[i].Content;
-                clipboardDataGridView.Rows.Add(preview, items[i].Timestamp.ToString("HH:mm:ss"));
+                clipboardDataGridView.Rows.Add(preview, items[i].Timestamp.ToString("dd/MM/yyyy HH:mm:ss"));
             }
         }
         private void AddClipboardItem(string content)
@@ -44,12 +44,18 @@ namespace Clipboard
         {
             UpdateGridView();
         }
-        
-        private void minibutton_Click(object sender, EventArgs e)
+        private void clipboardDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex >= 0)
+            {
+                List<ClipboardItem> items = clipboardStack.GetAllItems();
+                string fullContent = items[e.RowIndex].Content;
 
+                // Mở cửa sổ DetailClipboardCell để hiển thị nội dung
+                DetailClipboardCell.Instance.SetClipboardText(fullContent);
+                DetailClipboardCell.Instance.ShowDialog();
+            }
         }
-
         private void deletebutton_Click(object sender, EventArgs e)
         {
             if (clipboardDataGridView.SelectedRows.Count > 0)
@@ -68,8 +74,6 @@ namespace Clipboard
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
             );
-
-            // Nếu chọn Yes, thì xóa dữ liệu
             if (result == DialogResult.Yes)
             {
                 clipboardStack.Clear();
@@ -109,7 +113,7 @@ namespace Clipboard
 
         private void copybutton_Click(object sender, EventArgs e)
         {
-            string text = intextBox.Text.Trim();
+            string text = intextBox.Text;
             if (!string.IsNullOrEmpty(text))
             {
                 AddClipboardItem(text);
@@ -118,24 +122,32 @@ namespace Clipboard
         }
         private void cutbutton_Click(object sender, EventArgs e)
         {
-            string text = intextBox.Text.Trim();
+            string text = intextBox.Text;
             if (!string.IsNullOrEmpty(text))
             {
                 AddClipboardItem(text); // Lưu vào stack
                 intextBox.Clear(); // Xóa nội dung trên inTextBox
             }
         }
+        private void minibutton_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void intextBox_TextChanged(object sender, EventArgs e)
         {
 
         }
-
         private void contentpanel_Paint(object sender, PaintEventArgs e)
         {
 
         }
         private void outtextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clipboardDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

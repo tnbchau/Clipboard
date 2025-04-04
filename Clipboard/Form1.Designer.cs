@@ -29,23 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.chosebutton = new System.Windows.Forms.Button();
             this.filebutton = new System.Windows.Forms.Button();
             this.deleteallbutton = new System.Windows.Forms.Button();
             this.deletebutton = new System.Windows.Forms.Button();
             this.contentpanel = new System.Windows.Forms.Panel();
+            this.outtextBox = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cutbutton = new System.Windows.Forms.Button();
             this.copybutton = new System.Windows.Forms.Button();
             this.intextBox = new System.Windows.Forms.TextBox();
             this.clipboardDataGridView = new System.Windows.Forms.DataGridView();
             this.contentcol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Timecol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.cutbutton = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.outtextBox = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.contentpanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.clipboardDataGridView)).BeginInit();
@@ -108,6 +108,7 @@
             this.deleteallbutton.TabIndex = 2;
             this.deleteallbutton.Text = "Xóa tất cả";
             this.deleteallbutton.UseVisualStyleBackColor = false;
+            this.deleteallbutton.Click += new System.EventHandler(this.deleteallbutton_Click);
             // 
             // deletebutton
             // 
@@ -140,6 +141,40 @@
             this.contentpanel.TabIndex = 2;
             this.contentpanel.Paint += new System.Windows.Forms.PaintEventHandler(this.contentpanel_Paint);
             // 
+            // outtextBox
+            // 
+            this.outtextBox.Dock = System.Windows.Forms.DockStyle.Right;
+            this.outtextBox.Location = new System.Drawing.Point(1219, 0);
+            this.outtextBox.Multiline = true;
+            this.outtextBox.Name = "outtextBox";
+            this.outtextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.outtextBox.Size = new System.Drawing.Size(303, 744);
+            this.outtextBox.TabIndex = 8;
+            this.outtextBox.TextChanged += new System.EventHandler(this.outtextBox_TextChanged);
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.ControlText;
+            this.panel2.Location = new System.Drawing.Point(1212, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1, 744);
+            this.panel2.TabIndex = 7;
+            // 
+            // cutbutton
+            // 
+            this.cutbutton.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.cutbutton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cutbutton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cutbutton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.cutbutton.Location = new System.Drawing.Point(1036, 69);
+            this.cutbutton.Margin = new System.Windows.Forms.Padding(6);
+            this.cutbutton.Name = "cutbutton";
+            this.cutbutton.Size = new System.Drawing.Size(167, 42);
+            this.cutbutton.TabIndex = 6;
+            this.cutbutton.Text = "Cut";
+            this.cutbutton.UseVisualStyleBackColor = false;
+            this.cutbutton.Click += new System.EventHandler(this.cutbutton_Click);
+            // 
             // copybutton
             // 
             this.copybutton.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -168,26 +203,26 @@
             // 
             this.clipboardDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.clipboardDataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonShadow;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ScrollBar;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.clipboardDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.clipboardDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.clipboardDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.clipboardDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.contentcol,
             this.Timecol});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.clipboardDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.clipboardDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.clipboardDataGridView.EnableHeadersVisualStyles = false;
             this.clipboardDataGridView.Location = new System.Drawing.Point(22, 123);
             this.clipboardDataGridView.Margin = new System.Windows.Forms.Padding(6);
@@ -197,6 +232,9 @@
             this.clipboardDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.clipboardDataGridView.Size = new System.Drawing.Size(1181, 609);
             this.clipboardDataGridView.TabIndex = 0;
+            this.clipboardDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clipboardDataGridView_CellContentClick);
+            this.clipboardDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clipboardDataGridView_CellDoubleClick);
+
             // 
             // contentcol
             // 
@@ -216,39 +254,6 @@
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 500;
-            // 
-            // cutbutton
-            // 
-            this.cutbutton.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.cutbutton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cutbutton.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cutbutton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.cutbutton.Location = new System.Drawing.Point(1036, 69);
-            this.cutbutton.Margin = new System.Windows.Forms.Padding(6);
-            this.cutbutton.Name = "cutbutton";
-            this.cutbutton.Size = new System.Drawing.Size(167, 42);
-            this.cutbutton.TabIndex = 6;
-            this.cutbutton.Text = "Cut";
-            this.cutbutton.UseVisualStyleBackColor = false;
-            this.cutbutton.Click += new System.EventHandler(this.cutbutton_Click);
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ControlText;
-            this.panel2.Location = new System.Drawing.Point(1212, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1, 744);
-            this.panel2.TabIndex = 7;
-            // 
-            // outtextBox
-            // 
-            this.outtextBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.outtextBox.Location = new System.Drawing.Point(1219, 0);
-            this.outtextBox.Multiline = true;
-            this.outtextBox.Name = "outtextBox";
-            this.outtextBox.Size = new System.Drawing.Size(303, 744);
-            this.outtextBox.TabIndex = 8;
-            this.outtextBox.TextChanged += new System.EventHandler(this.outtextBox_TextChanged);
             // 
             // Form1
             // 
