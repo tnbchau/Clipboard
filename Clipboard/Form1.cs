@@ -21,7 +21,7 @@ namespace Clipboard
         private void UpdateGridView()
         {
             clipboardDataGridView.Rows.Clear();
-            List<ClipboardItem> items = clipboardStack.GetAllItems(); // Lấy danh sách
+            List<ClipboardItem> items = clipboardStack.GetAllItems(); // Lấy danh sách item
             for (int i = 0; i < items.Count; i++)
             {
                 string preview;
