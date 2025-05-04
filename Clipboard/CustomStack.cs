@@ -50,6 +50,12 @@ namespace Clipboard
             top = top.next;
             return data;
         }
+        public T Peek()
+        {
+            if (top == null) throw new InvalidOperationException("Stack rỗng!");
+            return top.data;
+        }
+
         public void RemoveAt(int index) 
         { 
             if (index == 0)
@@ -68,54 +74,68 @@ namespace Clipboard
             }
             prev.next = current.next; //Xóa: bỏ qua phần tử đó
         }
+        public T GetAt(int index)
+        {
+            if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
 
-        public void Clear()
+            Node<T> current = top;
+            int count = 0;
+
+            while (current != null)
+            {
+                if (count == index)
+                    return current.data;
+
+                current = current.next;
+                count++;
+            }
+            throw new ArgumentOutOfRangeException(nameof(index), "Vị trí vượt quá chiều dài của ngăn xếp.");
+        }
+            public void Clear()
         {
             top = null;
         }
-
-        public List<T> GetAllItems()
+        public void ForEach(Action<T> action)
         {
-            List<T> items = new List<T>();
-            Node<T> n = top;
-            while (n != null)
+            Node<T> current = top;
+            while (current != null)
             {
-                items.Add(n.data);
-                n = n.next;
+                action(current.data);
+                current = current.next;
             }
-            return items;
         }
         public void SaveToFile()
         {
-            List<T> items = GetAllItems();
-            if (items.Count == 0)
+            if (IsEmpty())
             {
-                MessageBox.Show
-                (
-                    "Clipboard trống, không có gì để lưu!", 
-                    "Thông báo", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(
+                    "Clipboard trống, không có gì để lưu!",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
                 return;
             }
+
             string timestamp = DateTime.Now.ToString("ddMMyyyy_HHmmss");
             string fileName = $"ClipboardData_{timestamp}.txt";
-            string path = Path.Combine
-                (
-                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                    "Downloads",
-                    fileName
-                );
+            string path = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                "Downloads",
+                fileName
+            );
 
-            File.WriteAllLines(path, items.ConvertAll(i => i.ToString()));
-            MessageBox.Show
-                (
-                    $"Đã lưu nội dung Clipboard vào tệp {fileName} trong thư mục Downloads!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                ForEach(item => writer.WriteLine(item.ToString()));
+            }
+
+            MessageBox.Show(
+                $"Đã lưu nội dung Clipboard vào tệp {fileName} trong thư mục Downloads!",
+                "Thông báo",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
         }
     }
     

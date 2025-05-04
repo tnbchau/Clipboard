@@ -21,15 +21,16 @@ namespace Clipboard
         private void UpdateGridView()
         {
             clipboardDataGridView.Rows.Clear();
-            List<ClipboardItem> items = clipboardStack.GetAllItems(); // Lấy danh sách item
-            for (int i = 0; i < items.Count; i++)
+            int index = 0;
+            clipboardStack.ForEach(item =>
             {
-                string preview;
-                if (items[i].Content.Length > 50)
-                    preview = items[i].Content.Substring(0, 50) + "...";
-                else preview = items[i].Content;
-                clipboardDataGridView.Rows.Add(preview, items[i].Timestamp.ToString("dd/MM/yyyy HH:mm:ss"));
-            }
+                string preview = item.Content.Length > 50
+                    ? item.Content.Substring(0, 50) + "..."
+                    : item.Content;
+
+                clipboardDataGridView.Rows.Add(preview, item.Timestamp.ToString("dd/MM/yyyy HH:mm:ss"));
+                index++;
+            });
         }
         private void AddClipboardItem(string content)
         {
@@ -39,7 +40,6 @@ namespace Clipboard
             //Cập nhật giao diện
             UpdateGridView();
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             UpdateGridView();
@@ -48,12 +48,19 @@ namespace Clipboard
         {
             if (e.RowIndex >= 0)
             {
-                List<ClipboardItem> items = clipboardStack.GetAllItems();
-                string fullContent = items[e.RowIndex].Content;
+                try
+                {
+                    ClipboardItem item = clipboardStack.GetAt(e.RowIndex);
+                    string fullContent = item.Content;
 
-                // Mở cửa sổ DetailClipboardCell để hiển thị nội dung
-                DetailClipboardCell.Instance.SetClipboardText(fullContent);
-                DetailClipboardCell.Instance.ShowDialog();
+                    // Mở cửa sổ DetailClipboardCell để hiển thị nội dung
+                    DetailClipboardCell.Instance.SetClipboardText(fullContent);
+                    DetailClipboardCell.Instance.ShowDialog();
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    MessageBox.Show("Không thể truy cập nội dung clipboard!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         private void deletebutton_Click(object sender, EventArgs e)
@@ -88,22 +95,21 @@ namespace Clipboard
                 return;
             }
 
-            List<ClipboardItem> items = clipboardStack.GetAllItems();
             string selectedText = "";
-
             if (clipboardDataGridView.SelectedRows.Count > 0)
             {
-                // Nếu có dòng được chọn, lấy nội dung của dòng đó
                 int selectedIndex = clipboardDataGridView.SelectedRows[0].Index;
-                selectedText = items[selectedIndex].Content;
+                ClipboardItem item = clipboardStack.GetAt(selectedIndex);
+                selectedText = item.Content;
             }
             else
-            {            
-                selectedText = items[0].Content; 
+            {
+                selectedText = clipboardStack.Peek().Content;
             }
-            
-            if (!string.IsNullOrEmpty(outtextBox.Text))            
-                outtextBox.AppendText(Environment.NewLine);            
+
+            if (!string.IsNullOrEmpty(outtextBox.Text))
+                outtextBox.AppendText(Environment.NewLine);
+
             outtextBox.AppendText(selectedText);
         }
         private void filebutton_Click(object sender, EventArgs e)
@@ -118,7 +124,6 @@ namespace Clipboard
             {
                 AddClipboardItem(text);
             }
-
         }
         private void cutbutton_Click(object sender, EventArgs e)
         {
