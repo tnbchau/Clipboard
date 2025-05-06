@@ -14,10 +14,18 @@ namespace Clipboard
     public partial class Form1 : Form
     {
         private CustomStack<ClipboardItem> clipboardStack = new CustomStack<ClipboardItem>();
+        
+        // 1. Constructor & Load
         public Form1()
         {
             InitializeComponent();
         }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            UpdateGridView();
+        }
+
+        // 2. Private helpers: cập nhật lưới và thêm item
         private void UpdateGridView()
         {
             clipboardDataGridView.Rows.Clear();
@@ -34,60 +42,30 @@ namespace Clipboard
         }
         private void AddClipboardItem(string content)
         {
-            //Tạo clipboard mới
             ClipboardItem item = new ClipboardItem(content);
             clipboardStack.Push(item);
-            //Cập nhật giao diện
             UpdateGridView();
         }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            UpdateGridView();
-        }
-        private void clipboardDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                try
-                {
-                    ClipboardItem item = clipboardStack.GetAt(e.RowIndex);
-                    string fullContent = item.Content;
 
-                    // Mở cửa sổ DetailClipboardCell để hiển thị nội dung
-                    DetailClipboardCell.Instance.SetClipboardText(fullContent);
-                    DetailClipboardCell.Instance.ShowDialog();
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    MessageBox.Show("Không thể truy cập nội dung clipboard!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-        private void deletebutton_Click(object sender, EventArgs e)
+        // 3. Clipboard actions: Copy, Cut, Paste, Save
+        private void copybutton_Click(object sender, EventArgs e) //Nút Copy
         {
-            if (clipboardDataGridView.SelectedRows.Count > 0)
+            string text = intextBox.Text;
+            if (!string.IsNullOrEmpty(text))
             {
-                int selectedIndex = clipboardDataGridView.SelectedRows[0].Index;
-                clipboardStack.RemoveAt(selectedIndex); // Xóa mục được chọn
-                UpdateGridView();                
+                AddClipboardItem(text);
             }
         }
-        private void deleteallbutton_Click(object sender, EventArgs e)
+        private void cutbutton_Click(object sender, EventArgs e)  //Nút Cut
         {
-            DialogResult result = MessageBox.Show
-            (
-                "Bạn có chắc chắn muốn xóa tất cả nội dung clipboard?",
-                "Xác nhận",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning
-            );
-            if (result == DialogResult.Yes)
+            string text = intextBox.Text;
+            if (!string.IsNullOrEmpty(text))
             {
-                clipboardStack.Clear();
-                UpdateGridView();
+                AddClipboardItem(text);
+                intextBox.Clear();
             }
         }
-        private void chosebutton_Click(object sender, EventArgs e)
+        private void chosebutton_Click(object sender, EventArgs e) //Nút Paste
         {
             if (clipboardStack.IsEmpty())
             {
@@ -112,49 +90,71 @@ namespace Clipboard
 
             outtextBox.AppendText(selectedText);
         }
-        private void filebutton_Click(object sender, EventArgs e)
+
+        private void filebutton_Click(object sender, EventArgs e) //Nút Lưu vào file
         {
             clipboardStack.SaveToFile();
         }
 
-        private void copybutton_Click(object sender, EventArgs e)
+        // 4. DataGridView interactions
+        private void clipboardDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            string text = intextBox.Text;
-            if (!string.IsNullOrEmpty(text))
+            if (e.RowIndex >= 0)
             {
-                AddClipboardItem(text);
-            }
-        }
-        private void cutbutton_Click(object sender, EventArgs e)
-        {
-            string text = intextBox.Text;
-            if (!string.IsNullOrEmpty(text))
-            {
-                AddClipboardItem(text); // Lưu vào stack
-                intextBox.Clear(); // Xóa nội dung trên inTextBox
-            }
-        }
-        private void minibutton_Click(object sender, EventArgs e)
-        {
+                try
+                {
+                    ClipboardItem item = clipboardStack.GetAt(e.RowIndex);
+                    string fullContent = item.Content;
 
+                    DetailClipboardCell.Instance.SetClipboardText(fullContent);
+                    DetailClipboardCell.Instance.ShowDialog();
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    MessageBox.Show("Không thể truy cập nội dung clipboard!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
+        private void clipboardDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
+        // 5. Delete & Delete All
+        private void deletebutton_Click(object sender, EventArgs e) //Nút Xóa
+        {
+            if (clipboardDataGridView.SelectedRows.Count > 0)
+            {
+                int selectedIndex = clipboardDataGridView.SelectedRows[0].Index;
+                clipboardStack.RemoveAt(selectedIndex);
+                UpdateGridView();
+            }
+        }
+        private void deleteallbutton_Click(object sender, EventArgs e) //Nút Xóa tất cả
+        {
+            DialogResult result = MessageBox.Show
+            (
+                "Bạn có chắc chắn muốn xóa tất cả nội dung clipboard?",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+            if (result == DialogResult.Yes)
+            {
+                clipboardStack.Clear();
+                UpdateGridView();
+            }
+        }
+
+        // 6. Giao diện phụ
 
         private void intextBox_TextChanged(object sender, EventArgs e)
         {
-
-        }
-        private void contentpanel_Paint(object sender, PaintEventArgs e)
-        {
-
         }
         private void outtextBox_TextChanged(object sender, EventArgs e)
         {
-
         }
-
-        private void clipboardDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void contentpanel_Paint(object sender, PaintEventArgs e)
         {
-
         }
     }
 }
